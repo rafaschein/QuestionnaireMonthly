@@ -221,10 +221,7 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Answer\Create.cshtml" />
     <Content Include="Views\Answer\Delete.cshtml" />
-    <Content Include="Views\Answer\Details.cshtml" />
-    <Content Include="Views\Answer\Edit.cshtml" />
     <Content Include="Views\Answer\Index.cshtml" />
     <Content Include="Views\Answer\Question.cshtml" />
   </ItemGroup>
