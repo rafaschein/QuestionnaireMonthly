@@ -1,0 +1,52 @@
+﻿@model QuestionnaireMonthly.Models.Answer
+
+@{
+    ViewBag.Title = "Answer";
+}
+
+<h2>Answer</h2>
+
+
+@using (Html.BeginForm("Create", "Answer"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>@Html.DisplayFor(model => model.Question.Description)</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.QuestionID)
+        @Html.HiddenFor(model => model.UserID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Response, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Response)
+                @Html.ValidationMessageFor(model => model.Response)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date)
+                @Html.ValidationMessageFor(model => model.Date)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
