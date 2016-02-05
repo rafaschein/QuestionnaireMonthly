@@ -18,7 +18,10 @@ namespace QuestionnaireMonthly.Controllers
         // GET: /Question/
         public ActionResult Index()
         {
-            return View(db.Question.ToList());
+            Response.Cookies["user_active"].Value = "1";
+            Response.Cookies["user_active"].Expires = DateTime.Now.AddDays(1);
+
+            return View(db.Question.ToList().OrderBy(question => question.Order));
         }
 
         // GET: /Question/Details/5
@@ -47,7 +50,7 @@ namespace QuestionnaireMonthly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,Description,DependenceId")] Question question)
+        public ActionResult Create([Bind(Include="ID,Description,DependenceId,Order")] Question question)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +82,7 @@ namespace QuestionnaireMonthly.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,Description,DependenceId")] Question question)
+        public ActionResult Edit([Bind(Include="ID,Description,DependenceId,Order")] Question question)
         {
             if (ModelState.IsValid)
             {

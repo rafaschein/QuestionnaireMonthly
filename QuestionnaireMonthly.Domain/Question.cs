@@ -9,6 +9,7 @@ namespace QuestionnaireMonthly.Domain
     public class Question : Entity
     {
         public String Description { get; set; }
+        public int Order { get; set; }
         public int? DependenceId { get; set; }
     }
 }
