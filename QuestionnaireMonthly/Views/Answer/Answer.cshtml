@@ -6,7 +6,8 @@
 
 <h2>Answer</h2>
 
-@using (Html.BeginForm("Create", "Answer"))
+
+@using (Html.BeginForm("Answer", "Answer"))
 {
     @Html.AntiForgeryToken()
 
@@ -14,10 +15,11 @@
         <h4>@Html.DisplayFor(model => model.Question.Description)</h4>
         <hr />
         @Html.ValidationSummary(true)
-
-        @Html.HiddenFor(model => model.QuestionID)
-        @Html.HiddenFor(model => model.UserID)
-        @Html.HiddenFor(model => model.Date)
+        
+        <input type="hidden" name="QuestionOrder" value="@Html.DisplayFor(model => model.Question.Order)" />
+        @Html.HiddenFor(model => model.QuestionID, new { @Value = Model.QuestionID })
+        @Html.HiddenFor(model => model.UserID, new { @Value = Model.UserID })
+        @Html.HiddenFor(model => model.Date, new { @Value = Model.Date })
 
         <div class="form-group">
             @Html.LabelFor(model => model.Response, new { @class = "control-label col-md-2" })

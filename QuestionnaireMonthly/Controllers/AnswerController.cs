@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using QuestionnaireMonthly.Domain;
 using QuestionnaireMonthly.Models;
 
 namespace QuestionnaireMonthly.Controllers
@@ -17,25 +18,7 @@ namespace QuestionnaireMonthly.Controllers
         // GET: /Answer/
         public ActionResult Index()
         {
-            var list_answers = db.Answer.ToList();
-
-            List<Answer> answers = new List<Answer>();
-
-            foreach (var answer in list_answers)
-            {
-                answers.Add(new Answer
-                {
-                    ID = answer.ID,
-                    Response = answer.Response,
-                    Date = answer.Date,
-                    QuestionID = answer.QuestionID,
-                    UserID = answer.UserID,
-                    Question = db.Question.Find(answer.QuestionID),
-                    User = db.User.Find(answer.UserID)
-                });
-            }
-
-            return View(answers);
+            return View(db.Answer.ToList());
         }
 
         // POST: /Answer/Create
@@ -95,6 +78,74 @@ namespace QuestionnaireMonthly.Controllers
             };
 
             return View(answer);
+        }
+
+        public ActionResult Answer()
+        {
+            
+            var Question = db.Question.OrderBy(question => question.Order).First();
+            var User = db.User.Find(Int32.Parse(Request.Cookies["user_active"].Value));
+
+            var answer = new Answer
+            {
+                Question = Question,
+                User = User,
+                QuestionID = Int32.Parse(Question.ID.ToString()),
+                UserID = Int32.Parse(User.ID.ToString())
+            };
+
+            return View(answer);
+        }
+
+        [HttpPost, ActionName("Answer")]
+        public ActionResult Answer([Bind(Include = "ID,QuestionID,UserID,Response,Date")] Answer answer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Answer.Add(answer);
+                db.SaveChanges();
+
+                var current_question = db.Question.Find(answer.QuestionID);
+
+                var Question = GetNextQuestion(answer.QuestionID, current_question.Order);
+                
+                if (Question != null)
+                {
+                    var User = db.User.Find(Int32.Parse(Request.Cookies["user_active"].Value));
+
+                    var next_question = new Answer
+                    {
+                        UserID = User.ID,
+                        Date = answer.Date,
+                        Question = Question,
+                        QuestionID = Int32.Parse(Question.ID.ToString()),
+                        User = User
+                    };
+
+                    return View(next_question);
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
+                
+            }
+
+            return View(answer);
+        }
+
+        private Question GetNextQuestion(long id, int order)
+        {
+            var Question = db.Question.Where(question => question.ID != id && question.Order > order).OrderBy(question => question.Order).ToList();
+
+            if (Question != null)
+            {
+                return Question.First();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         protected override void Dispose(bool disposing)

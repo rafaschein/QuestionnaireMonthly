@@ -21,6 +21,6 @@ namespace QuestionnaireMonthly.Models
 
         public System.Data.Entity.DbSet<QuestionnaireMonthly.Domain.Question> Question { get; set; }
         public System.Data.Entity.DbSet<QuestionnaireMonthly.Domain.User> User { get; set; }
-        public System.Data.Entity.DbSet<QuestionnaireMonthly.Models.Answer> Answer { get; set; }
+        public System.Data.Entity.DbSet<QuestionnaireMonthly.Domain.Answer> Answer { get; set; }
     }
 }
