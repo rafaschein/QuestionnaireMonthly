@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201602111828530_fix-model-answer.Designer.cs">
       <DependentUpon>201602111828530_fix-model-answer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602151314267_update-database.cs" />
+    <Compile Include="Migrations\201602151314267_update-database.Designer.cs">
+      <DependentUpon>201602151314267_update-database.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -284,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602111828530_fix-model-answer.resx">
       <DependentUpon>201602111828530_fix-model-answer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602151314267_update-database.resx">
+      <DependentUpon>201602151314267_update-database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

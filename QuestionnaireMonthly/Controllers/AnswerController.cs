@@ -97,7 +97,8 @@ namespace QuestionnaireMonthly.Controllers
             return View(answer);
         }
 
-        [HttpPost, ActionName("Answer")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Answer([Bind(Include = "ID,QuestionID,UserID,Response,Date")] Answer answer)
         {
             if (ModelState.IsValid)
@@ -119,7 +120,8 @@ namespace QuestionnaireMonthly.Controllers
                         Date = answer.Date,
                         Question = Question,
                         QuestionID = Int32.Parse(Question.ID.ToString()),
-                        User = User
+                        User = User,
+                        Response = false
                     };
 
                     return View(next_question);
@@ -136,9 +138,9 @@ namespace QuestionnaireMonthly.Controllers
 
         private Question GetNextQuestion(long id, int order)
         {
-            var Question = db.Question.Where(question => question.ID != id && question.Order > order).OrderBy(question => question.Order).ToList();
+            var Question = db.Question.Where(question => question.ID != id && question.Order > order).OrderBy(question => question.Order);
 
-            if (Question != null)
+            if (Question.Count() > 0)
             {
                 return Question.First();
             }
