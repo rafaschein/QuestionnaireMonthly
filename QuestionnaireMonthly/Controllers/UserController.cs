@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using QuestionnaireMonthly.Domain;
 using QuestionnaireMonthly.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 
 namespace QuestionnaireMonthly.Controllers
 {
@@ -116,6 +118,52 @@ namespace QuestionnaireMonthly.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult Login([Bind(Include = "Email,Password")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var user_active = db.User.Where(u => u.Email == user.Email && u.Password == user.Password);
+
+                if (user_active.Count() != 0)
+                {
+                    Response.Cookies["user_active"].Value = user_active.First().ID.ToString();
+                    Response.Cookies["user_active"].Expires = DateTime.Now.AddDays(1);
+
+                    return Redirect("/Question/Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Usuário e senha incorretos.");
+                    return View(user);
+                }
+            }
+            else
+            {
+                return View(user);
+            }
+        }
+
+        public ActionResult Logout()
+        {
+            if (Request.Cookies["user_active"] != null)
+            {
+                HttpCookie user_active = new HttpCookie("user_active");
+                user_active.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(user_active);
+            }
+
+            return RedirectToAction("Login");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -124,5 +172,7 @@ namespace QuestionnaireMonthly.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public bool isPersistent { get; set; }
     }
 }

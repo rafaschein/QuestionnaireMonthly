@@ -180,9 +180,17 @@
     <Compile Include="Migrations\201602051642103_update-type-to-field-order-in-question.Designer.cs">
       <DependentUpon>201602051642103_update-type-to-field-order-in-question.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602151220082_update-database.cs" />
-    <Compile Include="Migrations\201602151220082_update-database.Designer.cs">
-      <DependentUpon>201602151220082_update-database.cs</DependentUpon>
+    <Compile Include="Migrations\201602101838021_fix-fields-user.cs" />
+    <Compile Include="Migrations\201602101838021_fix-fields-user.Designer.cs">
+      <DependentUpon>201602101838021_fix-fields-user.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602101901399_fix-class-answer.cs" />
+    <Compile Include="Migrations\201602101901399_fix-class-answer.Designer.cs">
+      <DependentUpon>201602101901399_fix-class-answer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602111828530_fix-model-answer.cs" />
+    <Compile Include="Migrations\201602111828530_fix-model-answer.Designer.cs">
+      <DependentUpon>201602111828530_fix-model-answer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -235,6 +243,8 @@
     <Content Include="Views\Answer\Delete.cshtml" />
     <Content Include="Views\Answer\Index.cshtml" />
     <Content Include="Views\Answer\Question.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Answer\Answer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -266,8 +276,14 @@
     <EmbeddedResource Include="Migrations\201602051642103_update-type-to-field-order-in-question.resx">
       <DependentUpon>201602051642103_update-type-to-field-order-in-question.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602151220082_update-database.resx">
-      <DependentUpon>201602151220082_update-database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602101838021_fix-fields-user.resx">
+      <DependentUpon>201602101838021_fix-fields-user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602101901399_fix-class-answer.resx">
+      <DependentUpon>201602101901399_fix-class-answer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602111828530_fix-model-answer.resx">
+      <DependentUpon>201602111828530_fix-model-answer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
