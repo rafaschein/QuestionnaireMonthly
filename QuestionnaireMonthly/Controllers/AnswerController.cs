@@ -109,7 +109,7 @@ namespace QuestionnaireMonthly.Controllers
                 var current_question = db.Question.Find(answer.QuestionID);
 
                 var Question = GetNextQuestion(answer.QuestionID, current_question.Order);
-                
+
                 if (Question != null)
                 {
                     var User = db.User.Find(Int32.Parse(Request.Cookies["user_active"].Value));
@@ -129,8 +129,7 @@ namespace QuestionnaireMonthly.Controllers
                 else
                 {
                     return RedirectToAction("Index");
-                }
-                
+                }                
             }
 
             return View(answer);
@@ -138,11 +137,33 @@ namespace QuestionnaireMonthly.Controllers
 
         private Question GetNextQuestion(long id, int order)
         {
-            var Question = db.Question.Where(question => question.ID != id && question.Order > order).OrderBy(question => question.Order);
+            
+            var Question = db.Question.Where(q => q.ID != id && q.Order > order).OrderBy(q => q.Order).Take(1).ToList();
 
             if (Question.Count() > 0)
             {
-                return Question.First();
+                if(Question.First().DependenceId != null) {
+                    var CurrentQuestion = Question.First(); 
+                    var UserActiveID = Int32.Parse(Request.Cookies["user_active"].Value);
+
+                    var LastAnswer = db.Answer
+                        .Where(a => a.UserID == UserActiveID && a.QuestionID == CurrentQuestion.DependenceId)
+                        .OrderByDescending(a => a.ID)
+                        .First();
+
+                    if (string.Format("{0:yyyyMM}", LastAnswer.Date) == string.Format("{0:yyyyMM}", DateTime.Now)
+                        && LastAnswer.Response == true)
+                    {
+                        return CurrentQuestion;
+                    }
+
+                    var QuestionNew = GetNextQuestion(Question.First().ID, Question.First().Order);
+                    return QuestionNew;
+                }
+                else
+                {
+                    return Question.First();
+                }
             }
             else
             {
