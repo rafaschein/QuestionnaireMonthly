@@ -18,6 +18,12 @@ namespace QuestionnaireMonthly.Controllers
         // GET: /Question/
         public ActionResult Index()
         {
+            // TODO: After login by Windows authentication remove this line. It's provisional.
+            if (Request.Cookies["user_active"] == null)
+            {
+                return Redirect("/User/Login");
+            }
+
             return View(db.Question.ToList().OrderBy(question => question.Order));
         }
 
